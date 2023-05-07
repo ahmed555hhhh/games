@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>HTML</title>
+  
+  <!-- HTML -->
+  <style>
+     .body {
+    font-size: 15pt;
+    background: #FFB472;
+    width: 300px;
+    color: #FFE4CC;
+    height: 365px;
+}
+input{
+  background: #FFFFFF;
+  border: 1px solid black;
+  border-radius: 15px;
+  width: 40px;
+  height: 40px;
+}
+
+.div{
+  display: flex;
+}
+pre{
+  background: #FF7800;
+  size: 20px
+  color:#FFE4CC ;
+}
+  </style>
+
+  <!-- Custom Styles -->
+</head>
+
+<body><div class="body">
+  <pre>  🟤:<group1></group1>/16            ⚫:<group2></group2>/16</pre>
+  <div id="div">  </div>
+    <script>
+       function creater() {
+  var html_code = '';
+  let div = document.getElementById('div');
+  for (var i = 0; i < 8; i++) {
+    html_code += '<div class="div">';
+    for (var u = 0; u < 8; u++) {
+      //code
+      var button = `<input id="${String(i)}${String(u)}" type="button">`;
+      html_code += button;
+
+
+    }
+    html_code += '</div>';
+  }
+  div.innerHTML = html_code;
+
+}
+creater();
+
+    </script>
+
+  <script>
+     let arr = new Array();
+let but;
+let t1 = '🟤';
+let t2 = '⚫';
+let text = '';
+function ifdmV(b) {
+   let bo = true;
+   let r = 0;
+   let buto;
+   let list = listdmV(b);
+   for (let x in list) {
+      try {
+         if (bo) {
+            bo = !(list[x].value == text ||
+             list[x].value == s(text)) &&
+               !((!Number(x) == list.length - 1) ?
+                  list[x].value != '' &&
+                  list[Number(x) - 1].value != '' : false
+               ) 
+         } else {
+            break;
+         }
+      } catch (e) {
+         console.log(x,x-1);
+      }
+   }
+   return bo;
+}
+function array(){
+  for (let i = 0; i < 8; i++) {
+    let list = new Array();
+    for (let u = 0; u < 8; u++) {
+      //code
+      let button = document.getElementById(String(i) + String(u));
+      click(button)
+      list.push(button);
+    }
+    arr.push(list);
+  }
+  for (let i = 0; i < 16; i++) {
+    arr[parseInt((8+i)/8)][(8+i)%8].value = t2;
+    arr[parseInt((40+i)/8)][(40+i)%8].value = t1;
+  }
+}
+array();
+
+function click(button) {
+  button.onclick = function(){
+    if (button.value == '') {
+      if (ifp(button)) {
+        if (find(button,arr[0]) && text == t1) {
+          text='🟫'
+        } else if (find(button, arr[7]) && text == t2) {
+          text = '⬛'
+        }
+        button.value = text;
+        but.value ='';
+        but.style.background = 'white';
+        text = '';
+        but = null;
+      }
+    } else {
+      if (text == '') {
+        but = button;
+        text = button.value;
+        button.style.background = 'green';
+        
+      }
+      else{
+        but.style.background = 'white';
+        text = '';
+        but = null;
+      }
+        
+    }
+    let group1 = 0;
+  let group2 = 0;
+  for (var y in arr) {
+    for (var x in arr[y]) {
+      let buton = arr[y][x];
+      if (buton.value != '') {
+        if (buton.value == t1 || buton.value == s(t1)) {
+          group1 ++ ;
+        } else {
+            if(buton.value == t2 || buton.value == s(t2)){
+               group2 ++ ;
+            }
+        }
+       
+      }
+    }
+  }
+  document.querySelector('group1').innerHTML = group1;
+  document.querySelector('group2').innerHTML = group2;
+
+  }
+  
+  
+}
+function pos(b){
+  let r = {'x':'y','y':''}; 
+  for (let y in arr) {
+    for (let x in arr[y]) {
+      if (b == arr[y][x]) {
+        r = {
+          'x':x,
+          'y':y
+        }
+      }
+    }
+  }
+  return r;
+}
+function find(el,list){
+  let bo = false;
+  list.forEach(function(v,i,a){
+    if (v == el) {
+      bo = true;
+    }
+  });
+  return bo;
+}
+function H(b){
+  return arr[pos(b).y];
+}
+function V(b){
+  let list = new Array();
+  for (let x in arr) {
+    list.push(arr[x][pos(b).x]);
+  }
+  return list;
+}
+function ifp(b){
+  let bo = false;
+  if (find(b,H(but))) {
+    let b2 = H(b)[pos(b).x/2+pos(but).x / 2];
+
+    if (Math.abs(pos(b).x-pos(but).x )== 1) {
+      bo = true;
+    } else if(Math.abs(pos(b).x-pos(but).x ) == 2 &&  b2.value != text  && b2.value != '' && b2.value != s(text) ) {
+      bo = true;
+      H(b)[pos(b).x/2+pos(but).x / 2].value = '';
+    }else if(text == '🟫' || text == '⬛'){
+      var hd = listdmH(b);
+      if (ifdm(b,hd)) {
+        for (var x in hd ) {
+          hd[x].value = '';
+        }
+        bo = true;
+      }
+    }
+  }else if(find(b,V(but))){
+    let b2 =
+    V(b)[pos(b).y/2+pos(but).y/ 2];
+    if (Math.abs(pos(b).y-pos(but).y )== 1) {
+      bo = true;
+    } else if(Math.abs(pos(b).y-pos(but).y ) == 2 &&  b2.value != text  && b2.value != '' && b2.value != s(text) ) {
+      bo = true;
+     b2.value = '';
+    }else if(text == '🟫' ||
+    text == '⬛'){
+      var hd = listdmV(b);
+      if (ifdm(b,hd)) {
+        for (var x in hd ) {
+          hd[x].value = '';
+        }
+        bo = true;
+      }
+    }
+  }
+  return bo;
+}
+function ifdm(b,list){
+  let bo = true;
+  for (let x in list ) {
+   if (bo) {
+      bo = !(list[x].value == text ||
+            list[x].value == s(text)) &&
+         !((!Number(x) == list.length - 1   ) ?
+    list[x].value != '' &&
+   list[Number(x) + 1].value != '' : false
+        )
+   } else {
+   break;
+   }
+  }
+  return bo;
+}
+function listdm(b, list, s) {
+   let h = list;
+   let bx = pos(b)[s];
+   let bux = pos(but)[s];
+   let max = bx > bux ? bx : bux;
+   let min = bx < bux ? bx : bux;
+   min++;
+   let lists = h.slice(min, max);
+   return lists;
+}
+function listdmV(b){
+  let h = V(b);
+  return listdm(b,h,"y");
+} 
+function listdmH(b){
+  let h = H(b);
+  return listdm(b,h,"x");
+}
+function s(s){
+  return s=='🟫' 
+  ? t1 :s =="⬛"?
+  t2:(s==t1)?
+  '🟫':(s ==t2) ?
+  "⬛" :''
+  ;
+}
+let group1 = 0;
+  let group2 = 0;
+  for (var y in arr) {
+    for (var x in arr[y]) {
+      let buton = arr[y][x];
+      if (buton.value != '') {
+        if (buton.value == t1 || buton.value == s(t1)) {
+          group1 ++ ;
+        } else {
+          group2 ++ ;
+        }
+        if(buton.value != t1 && buton.value != t2){
+        }
+      }
+    }
+  }
+  document.querySelector('group1').innerHTML = group1;
+  document.querySelector('group2').innerHTML = group2;
+  </script>
+</div>
+</body>
+</html>
